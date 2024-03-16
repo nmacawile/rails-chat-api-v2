@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post "/signup" => "users#create"
+      post "/auth/login" => "authentication#login"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
