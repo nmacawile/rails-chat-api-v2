@@ -12,7 +12,7 @@ module ExceptionHandler
 
   private
   
-  # 403
+  # 401
   def unauthorized_response(e)
     json_response({ message: e.message }, :unauthorized)
   end
