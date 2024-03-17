@@ -9,4 +9,8 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def data
+    slice(:email, :first_name, :last_name, :full_name)
+  end
 end

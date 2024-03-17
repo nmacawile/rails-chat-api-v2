@@ -2,12 +2,6 @@ require "rails_helper"
 
 RSpec.describe AuthenticateUser do
   let(:user) { create :user }
-  let(:user_attributes) do
-    user.slice(:first_name,
-               :last_name,
-               :email,
-               :full_name)
-  end
   let(:valid_auth_object) do
     described_class.new(user.email, user.password)
   end
@@ -28,7 +22,7 @@ RSpec.describe AuthenticateUser do
 
       it "includes user info" do
         auth_user = auth_response[:user]
-        expect(auth_user).to eq user_attributes
+        expect(auth_user).to eq user.data
       end
     end
 

@@ -2,12 +2,6 @@ require "rails_helper"
 
 RSpec.describe "Users API", type: :request do
   let(:user) { build :user }
-  let(:user_data) do
-    user.slice :first_name,
-               :last_name,
-               :email,
-               :full_name
-  end
   let(:user_attributes) do
     user.slice :first_name,
                :last_name,
@@ -28,7 +22,7 @@ RSpec.describe "Users API", type: :request do
       end
 
       it "returns the user data" do
-        expect(json["user"]).to eq user_data
+        expect(json["user"]).to eq user.data
       end
 
       it "returns a success message" do
