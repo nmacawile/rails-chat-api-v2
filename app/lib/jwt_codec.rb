@@ -10,5 +10,7 @@ class JwtCodec
   def self.decode(token)
     decoded_token = JWT.decode(token, HMAC_SECRET)[0]
     HashWithIndifferentAccess.new(decoded_token)
+  rescue JWT::DecodeError => e
+    raise ExceptionHandler::InvalidToken, e.message
   end
 end
