@@ -8,7 +8,7 @@ class JwtCodec
   end
 
   def self.decode(token)
-    decoded_token = JWT.decode(token, HMAC_SECRET)
+    decoded_token = JWT.decode(token, HMAC_SECRET)[0]
     HashWithIndifferentAccess.new(decoded_token)
   end
 end
