@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :chats, through: :joins,
                    source: :joinable,
                    source_type: "Chat"
+  has_many :messages
 
   validates_presence_of :first_name, :last_name
 
