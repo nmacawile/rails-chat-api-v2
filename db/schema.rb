@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_15_115131) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_18_115758) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "joins", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "joinable_type"
+    t.bigint "joinable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["joinable_type", "joinable_id"], name: "index_joins_on_joinable"
+    t.index ["user_id", "joinable_id"], name: "index_joins_on_user_id_and_joinable_id", unique: true
+    t.index ["user_id"], name: "index_joins_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,4 +44,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_15_115131) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "joins", "users"
 end
