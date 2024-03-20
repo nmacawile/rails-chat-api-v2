@@ -22,7 +22,7 @@ RSpec.describe AuthenticateUser do
 
       it "includes user info" do
         auth_user = auth_response[:user]
-        expect(auth_user).to eq user.data
+        expect(auth_user).to eq user
       end
     end
 

@@ -7,7 +7,7 @@ class AuthenticateUser
   def call
     if user&.valid_password?(password)
       return { auth_token: auth_token,
-               user: user.data }
+               user: user }
     end
     raise ExceptionHandler::AuthenticationError,
           "Invalid credentials."

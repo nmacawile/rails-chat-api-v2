@@ -4,7 +4,7 @@ class AuthorizeApiRequest
   end
 
   def call
-    { user: user.data }
+    { user: user }
   end
 
   private

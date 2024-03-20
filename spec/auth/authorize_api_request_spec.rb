@@ -11,9 +11,9 @@ RSpec.describe AuthorizeApiRequest do
   
   describe "#call" do
     context "when valid credentials" do
-      it "returns the user data" do
-        decoded_user_data = subject.call[:user]
-        expect(decoded_user_data).to eq user.data
+      it "returns the user" do
+        decoded_user = subject.call[:user]
+        expect(decoded_user).to eq user
       end
     end
 

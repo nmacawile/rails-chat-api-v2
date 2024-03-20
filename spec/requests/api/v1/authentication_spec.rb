@@ -3,12 +3,6 @@ require "rails_helper"
 RSpec.describe "Authentication API", type: :request do
   describe "POST /api/v1/auth/login" do
     let(:user) { create :user }
-    let(:user_data) do
-      user.slice :first_name,
-                :last_name,
-                :full_name,
-                :email
-    end
     let(:user_login) { user.slice(:email, :password) }
 
     context "when valid login" do
@@ -23,7 +17,7 @@ RSpec.describe "Authentication API", type: :request do
       end
 
       it "returns the user data" do
-        expect(json["user"]).to eq user_data
+        expect(json["user"]).to eq user.as_json
       end
     end
 
@@ -40,7 +34,7 @@ RSpec.describe "Authentication API", type: :request do
         expect(json["auth_token"]).to be_nil
       end
 
-      it "does not return the user data" do
+      it "does not return the user" do
         expect(json["user"]).to be_nil
       end
 
