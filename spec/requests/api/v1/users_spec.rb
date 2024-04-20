@@ -22,6 +22,7 @@ RSpec.describe "Users API", type: :request do
       end
 
       it "returns the user data" do
+        expect(json["user"]["id"]).not_to be_nil
         expect(json["user"]["email"]).to eq user.email
         expect(json["user"]["first_name"]).to eq user.first_name
         expect(json["user"]["last_name"]).to eq user.last_name
