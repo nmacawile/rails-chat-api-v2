@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   # devise_for :users
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       post "/signup" => "users#create"
       post "/auth/login" => "authentication#login"
+      
+      get "chats" => "chats#index"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,0 +1,11 @@
+@latest_chat_messages_with_inclusions.map do |message|
+  { 
+    id: message.messageable.id,
+    type: "Chat",
+    users: message.messageable.users.map { |u| u.data },
+    latest_message: {
+      content: message.content,
+      user: message.user.data 
+    }
+  }
+end

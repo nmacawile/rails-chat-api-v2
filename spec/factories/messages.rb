@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :message do
-    content { "MyText" }
+    association(:user, factory: :user)
+    content { Faker::Lorem.paragraph }
   end
 end
