@@ -1,0 +1,4 @@
+{
+  id: @chat.id,
+  users: @chat.users.map { |u| u.data }
+}

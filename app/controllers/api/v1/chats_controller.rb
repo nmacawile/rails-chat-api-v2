@@ -15,4 +15,8 @@ class Api::V1::ChatsController < ApplicationController
               "AND messages.created_at = latest_message_times.latest_message_time")
         .includes(messageable: :users)
   end
+
+  def show
+    @chat = Chat.includes(:users).find(params[:id])
+  end
 end

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post "/auth/login" => "authentication#login"
       
       get "chats" => "chats#index"
+      get "chats/:id" => "chats#show"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

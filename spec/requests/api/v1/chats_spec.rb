@@ -54,4 +54,39 @@ RSpec.describe "Chats", type: :request do
       expect(json).to eq user_chats_hash
     end
   end
+
+  describe "GET api/v1/chats" do
+    context "when chat exists" do
+      let(:chat) { user_chats.first }
+      let(:chat_users) { chat.users }
+      let(:chat_hash) do
+        {
+          "id" => chat.id,
+          "users" => chat.users.map { |u| u.data }
+        }
+      end
+
+      before { get "/api/v1/chats/#{chat.id}", headers: headers }
+
+      it "returns the chat object" do
+        expect(json).to eq chat_hash
+      end
+
+      it "returns an 'ok' response status" do
+        expect(response).to have_http_status 200
+      end
+    end
+
+    context "when chat doesn't exist" do
+      before { get "/api/v1/chats/0", headers: headers }
+
+      it "returns a 'not found' response status" do
+        expect(response).to have_http_status 404
+      end
+
+      it "returns a 'not found' message" do
+        expect(json["message"]).to match /Couldn't find Chat/
+      end
+    end
+  end
 end
