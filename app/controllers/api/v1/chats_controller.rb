@@ -1,4 +1,7 @@
 class Api::V1::ChatsController < ApplicationController
+  before_action :set_chat, only: :show  
+  before_action :restrict_access, only: :show
+
   def index
     user_chat_ids = current_user.chats.select(:id)
     # query latest message time by distinct chats, latest first
@@ -16,7 +19,17 @@ class Api::V1::ChatsController < ApplicationController
         .includes(messageable: :users)
   end
 
-  def show
+  def show;end
+
+  private
+
+  def set_chat
     @chat = Chat.includes(:users).find(params[:id])
+  end
+  
+  def restrict_access
+    unless @chat.users.include?(current_user)
+      raise ExceptionHandler::Forbidden, "Access denied"
+    end
   end
 end

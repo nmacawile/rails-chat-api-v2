@@ -4,6 +4,7 @@ module ExceptionHandler
   class AuthenticationError < StandardError; end
   class MissingToken < StandardError; end
   class InvalidToken < StandardError; end
+  class Forbidden < StandardError; end
 
   included do
     rescue_from ActiveRecord::RecordInvalid,
@@ -16,6 +17,8 @@ module ExceptionHandler
                 with: :unauthorized_response
     rescue_from ExceptionHandler::InvalidToken,
                 with: :unauthorized_response
+    rescue_from ExceptionHandler::Forbidden,
+                with: :forbidden_response
   end
 
   private
@@ -23,6 +26,11 @@ module ExceptionHandler
   # 401
   def unauthorized_response(e)
     json_response({ message: e.message }, :unauthorized)
+  end
+
+  # 403
+  def forbidden_response(e)
+    json_response({ message: e.message }, :forbidden)
   end
 
   # 404

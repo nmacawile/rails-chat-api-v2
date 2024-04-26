@@ -56,18 +56,18 @@ RSpec.describe "Chats", type: :request do
   end
 
   describe "GET api/v1/chats" do
+    let(:chat) { user_chats.first }
+    let(:chat_id) { chat.id }
+    let(:chat_hash) do
+      {
+        "id" => chat.id,
+        "users" => chat.users.map { |u| u.data }
+      }
+    end
+    
+    before { get "/api/v1/chats/#{chat_id}", headers: headers }
+
     context "when chat exists" do
-      let(:chat) { user_chats.first }
-      let(:chat_users) { chat.users }
-      let(:chat_hash) do
-        {
-          "id" => chat.id,
-          "users" => chat.users.map { |u| u.data }
-        }
-      end
-
-      before { get "/api/v1/chats/#{chat.id}", headers: headers }
-
       it "returns the chat object" do
         expect(json).to eq chat_hash
       end
@@ -78,7 +78,7 @@ RSpec.describe "Chats", type: :request do
     end
 
     context "when chat doesn't exist" do
-      before { get "/api/v1/chats/0", headers: headers }
+      let(:chat_id) { 0 }
 
       it "returns a 'not found' response status" do
         expect(response).to have_http_status 404
@@ -86,6 +86,21 @@ RSpec.describe "Chats", type: :request do
 
       it "returns a 'not found' message" do
         expect(json["message"]).to match /Couldn't find Chat/
+      end
+    end
+
+    context "when user doesn't belong in the chat" do
+      let(:unauthorized_user) { create :user }
+      let(:headers) do
+        { "Authorization" => "Bearer #{generate_token(unauthorized_user.id)}" }
+      end
+
+      it "returns a 'forbidden' response status" do
+        expect(response).to have_http_status 403
+      end
+
+      it "returns a 'forbidden' message" do
+        expect(json["message"]).to match /Access denied/
       end
     end
   end
