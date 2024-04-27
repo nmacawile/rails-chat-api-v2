@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Chats", type: :request do
+RSpec.describe "Chats API", type: :request do
   let(:user) { create :user }
   let(:friends) { create_list :user, 20 }
 
