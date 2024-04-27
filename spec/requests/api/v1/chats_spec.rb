@@ -43,7 +43,7 @@ RSpec.describe "Chats API", type: :request do
     { "Authorization" => "Bearer #{generate_token(user.id)}" }
   end
 
-  describe "GET api/v1/chats" do
+  describe "GET /api/v1/chats" do
     before { get "/api/v1/chats", headers: headers }
 
     it "returns an 'ok' response status" do
@@ -55,7 +55,7 @@ RSpec.describe "Chats API", type: :request do
     end
   end
 
-  describe "GET api/v1/chats" do
+  describe "GET /api/v1/chats/:chat_id" do
     let(:chat) { user_chats.first }
     let(:chat_id) { chat.id }
     let(:chat_hash) do
