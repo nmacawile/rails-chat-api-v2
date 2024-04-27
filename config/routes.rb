@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       
       get "chats" => "chats#index"
       get "chats/:id" => "chats#show"
+      post "chats/find_or_create/:user_id" => "chats#find_or_create"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

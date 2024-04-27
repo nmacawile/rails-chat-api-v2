@@ -21,6 +21,25 @@ class Api::V1::ChatsController < ApplicationController
 
   def show;end
 
+  def find_or_create
+    user = User.find(params[:user_id])
+    @chat = Chat
+      .joins("JOIN joins AS j1 " \
+             "ON j1.joinable_type = 'Chat' " \
+             "AND j1.joinable_id = chats.id")
+      .joins("JOIN joins AS j2 " \
+             "ON j2.joinable_type = 'Chat' " \
+             "AND j2.joinable_id = chats.id")
+      .where("j1.user_id <> j2.user_id")
+      .where("j1.user_id = ?", current_user)
+      .where("j2.user_id = ?", user)
+      .distinct.first || Chat.new(users: [current_user, user])
+    if (!@chat.persisted?)
+      @chat.save!
+      response.status = :created
+    end
+  end
+
   private
 
   def set_chat

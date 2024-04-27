@@ -104,4 +104,43 @@ RSpec.describe "Chats API", type: :request do
       end
     end
   end
+
+  describe "POST /api/v1/chats/find_or_create/:user_id" do
+    let(:other_user_id) { other_user.id }
+    before do
+      post "/api/v1/chats/find_or_create/#{other_user_id}", headers: headers
+    end
+
+    context "when a chat doesn't exist yet" do
+      let(:other_user) { create :user }
+      
+      it "returns a chat id" do
+        expect(json["id"]).not_to be_nil
+      end
+
+      it "returns a list of chat participants" do
+        expect(json["users"]).to include other_user.data
+      end
+
+      it "returns a 'created' response status" do
+        expect(response).to have_http_status 201
+      end
+    end
+
+    context "when a chat already exists" do
+      let(:other_user) { friends.first }
+
+      it "returns the chat id" do
+        expect(json["id"]).to eq user_chats.first.id
+      end
+
+      it "returns a list of chat participants" do
+        expect(json["users"]).to include other_user.data
+      end
+
+      it "returns an 'ok' response status" do
+        expect(response).to have_http_status 200
+      end
+    end
+  end
 end
