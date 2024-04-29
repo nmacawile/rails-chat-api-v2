@@ -19,7 +19,9 @@ class Api::V1::ChatsController < ApplicationController
         .includes(messageable: :users)
   end
 
-  def show;end
+  def show
+    render "chat", locals: { chat: @chat }
+  end
 
   def find_or_create
     user = User.find(params[:user_id])
@@ -38,6 +40,7 @@ class Api::V1::ChatsController < ApplicationController
       @chat.save!
       response.status = :created
     end
+    render "chat", locals: { chat: @chat }
   end
 
   private

@@ -61,6 +61,7 @@ RSpec.describe "Chats API", type: :request do
     let(:chat_hash) do
       {
         "id" => chat.id,
+        "type" => "Chat",
         "users" => chat.users.map { |u| u.data }
       }
     end

@@ -1,0 +1,5 @@
+{
+  id: chat.id,
+  type: "Chat",
+  users: chat.users.map { |u| u.data }
+}
