@@ -1,6 +1,12 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authorize_request, only: :create
 
+  def index
+    @users = User.excluding(current_user)
+               .map { |u| u.data }
+    json_response @users
+  end
+
   def create
     user = User.create!(user_params)
     auth_data = AuthenticateUser.new(params[:email], params[:password]).call

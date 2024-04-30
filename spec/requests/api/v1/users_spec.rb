@@ -1,15 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "Users API", type: :request do
-  let(:user) { build :user }
-  let(:user_attributes) do
-    user.slice :first_name,
-               :last_name,
-               :email,
-               :password
-  end
+  describe "POST /api/v1/signup" do 
+    let(:user) { build :user }
+    let(:user_attributes) do
+      user.slice :first_name,
+                 :last_name,
+                 :email,
+                 :password
+    end
 
-  describe "POST /api/v1/signup" do
     context "when valid request" do
       before { post "/api/v1/signup", params: user_attributes }
 
@@ -62,6 +62,19 @@ RSpec.describe "Users API", type: :request do
           expect(json["message"]).to match /Email can't be blank/
         end
       end
+    end
+  end
+
+  describe "GET /api/v1/users" do
+    let(:user) { create :user }
+    let(:users) { create_list :user, 10 }
+    let(:users_data) { users.map { |u| u.data } }
+    let(:headers) { { Authorization: "Bearer #{generate_token(user.id)}"} }
+
+    before { get "/api/v1/users", headers: headers }
+
+    it "returns a list of users" do
+      expect(json).not_to include user.data
     end
   end
 end

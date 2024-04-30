@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "/signup" => "users#create"
       post "/auth/login" => "authentication#login"
+
+      get "users" => "users#index"
       
       get "chats" => "chats#index"
       get "chats/:id" => "chats#show"
