@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_29_150403) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_30_070305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,7 +18,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_150403) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "latest_message_id"
-    t.index ["latest_message_id"], name: "index_chats_on_latest_message_id"
   end
 
   create_table "joins", force: :cascade do |t|
