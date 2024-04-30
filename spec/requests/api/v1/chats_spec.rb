@@ -108,6 +108,7 @@ RSpec.describe "Chats API", type: :request do
 
   describe "POST /api/v1/chats/find_or_create/:user_id" do
     let(:other_user_id) { other_user.id }
+
     before do
       post "/api/v1/chats/find_or_create/#{other_user_id}", headers: headers
     end
@@ -141,6 +142,18 @@ RSpec.describe "Chats API", type: :request do
 
       it "returns an 'ok' response status" do
         expect(response).to have_http_status 200
+      end
+    end
+
+    context "when user doesn't exist" do
+      let(:other_user_id) { -1 }
+
+      it "returns an 'not found' response status" do
+        expect(response).to have_http_status 404
+      end
+
+      it "returns a 'not found' error message" do
+        expect(json["message"]).to match /Couldn't find User/
       end
     end
   end
