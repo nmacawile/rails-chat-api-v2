@@ -12,6 +12,14 @@ RSpec.describe UserQuery do
   subject { described_class.new(query_string) }
   
   describe "#call" do
+    context "when query string is empty" do
+      let(:query_string) { nil }
+      
+      it "returns all items from the list" do
+        expect(subject.call).to eq users
+      end
+    end
+
     context "when query string exactly matches user's full name" do
       let(:query_string) { "Foo Bar" }
       

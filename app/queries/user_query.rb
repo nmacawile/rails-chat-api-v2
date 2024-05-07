@@ -1,9 +1,10 @@
 class UserQuery
   def initialize(query_string)
-    @query_string = "%#{query_string.squish}%"
+    @query_string = query_string ? "%#{query_string.squish}%" : ""
   end
 
   def call
+    return User.all if @query_string.blank?
     User.where(
       "CONCAT_WS(' ', first_name, last_name) " \
       "ILIKE ? OR " \
