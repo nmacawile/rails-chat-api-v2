@@ -83,6 +83,16 @@ RSpec.describe "Users API", type: :request do
       end
     end
 
+    context "query list" do
+      let!(:new_users) { create_list :user, 3, first_name: "Fooooooo" }
+
+      before { get "/api/v1/users", params: { q: "Fooooo", per_page: 50 }, headers: headers }
+
+      it "returns a list of users matching the query" do
+        expect(json.count).to eq 3
+      end
+    end
+
     context "paginated list" do
       let!(:first_page_data) do
         users.first(20).map { |u| u.data }

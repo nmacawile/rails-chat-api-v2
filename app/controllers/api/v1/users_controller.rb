@@ -2,9 +2,10 @@ class Api::V1::UsersController < ApplicationController
   skip_before_action :authorize_request, only: :create
 
   def index
-    @users = User.excluding(current_user)
-                 .page(params[:page])
-                 .per(params[:per_page])
+    @users = UserQuery.new(params[:q]).call
+              .excluding(current_user)
+              .page(params[:page])
+              .per(params[:per_page])
     json_response @users
   end
 
