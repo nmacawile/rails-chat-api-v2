@@ -3,7 +3,8 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     @users = User.excluding(current_user)
-               .map { |u| u.data }
+                 .page(params[:page])
+                 .per(params[:per_page])
     json_response @users
   end
 

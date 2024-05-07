@@ -67,18 +67,37 @@ RSpec.describe "Users API", type: :request do
 
   describe "GET /api/v1/users" do
     let(:user) { create :user }
-    let!(:users) { create_list :user, 30 }
+    let!(:users) { create_list :user, 500 }
     let(:users_data) { users.map { |u| u.data } }
-    let(:headers) { { Authorization: "Bearer #{generate_token(user.id)}"} }
+    let(:headers) { { Authorization: "Bearer #{generate_token(user.id)}"} }  
 
-    before { get "/api/v1/users", headers: headers }
+    context "fetch everything" do
+      before { get "/api/v1/users", params: { per_page: 50 }, headers: headers }
 
-    it "returns a list of users" do
-      expect(json.count).to eq 30
+      it "returns a paginated list of users" do
+        expect(json.count).to eq 50
+      end
+
+      it "does not include current user" do
+        expect(json).not_to include user.data
+      end
     end
 
-    it "does not include current user" do
-      expect(json).not_to include user.data
+    context "paginated list" do
+      let!(:first_page_data) do
+        users.first(20).map { |u| u.data }
+      end
+
+
+      before { get "/api/v1/users", params: { page: 2 }, headers: headers }
+
+      it "returns a paginated list of users" do
+        expect(json.count).to eq 20
+      end
+
+      it "does not include results from the first page" do
+        expect(json).not_to include first_page_data
+      end
     end
   end
 end
