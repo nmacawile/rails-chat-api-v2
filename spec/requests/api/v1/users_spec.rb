@@ -67,13 +67,17 @@ RSpec.describe "Users API", type: :request do
 
   describe "GET /api/v1/users" do
     let(:user) { create :user }
-    let(:users) { create_list :user, 10 }
+    let!(:users) { create_list :user, 30 }
     let(:users_data) { users.map { |u| u.data } }
     let(:headers) { { Authorization: "Bearer #{generate_token(user.id)}"} }
 
     before { get "/api/v1/users", headers: headers }
 
     it "returns a list of users" do
+      expect(json.count).to eq 30
+    end
+
+    it "does not include current user" do
       expect(json).not_to include user.data
     end
   end
