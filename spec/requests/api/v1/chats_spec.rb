@@ -21,7 +21,10 @@ RSpec.describe "Chats API", type: :request do
       { 
         "id" => user_chats.second.id,
         "type" => "Chat",
-        "users" => [user.data, friends.second.data],
+        "users" => user_chats.second
+                             .users
+                             .order(:first_name, :last_name)
+                             .map { |u| u.data },
         "latest_message" => {
           "content" => user_chat_messages.second.content,
           "user" => user.data
@@ -30,7 +33,10 @@ RSpec.describe "Chats API", type: :request do
       { 
         "id" => user_chats.first.id,
         "type" => "Chat",
-        "users" => [user.data, friends.first.data],
+        "users" => user_chats.first
+                             .users
+                             .order(:first_name, :last_name)
+                             .map { |u| u.data },
         "latest_message" => {
           "content" => user_chat_messages.first.content,
           "user" => user.data
@@ -62,7 +68,9 @@ RSpec.describe "Chats API", type: :request do
       {
         "id" => chat.id,
         "type" => "Chat",
-        "users" => chat.users.map { |u| u.data }
+        "users" => chat.users
+                       .order(:first_name, :last_name)
+                       .map { |u| u.data }
       }
     end
     
