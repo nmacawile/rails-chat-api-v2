@@ -68,4 +68,40 @@ RSpec.describe "Messages API", type: :request do
       end
     end
   end
+
+  describe "POST /api/v1/:chat_id/messages" do
+    let(:message_params) do
+      { message: { content: "Hello world!" } }
+    end
+
+    before do
+      post("/api/v1/chats/#{chat.id}/messages", 
+           params: message_params,
+           headers: headers)
+    end
+
+    context "valid request" do
+      it "returns a 'no content' response status" do
+        expect(response).to have_http_status 204
+      end
+
+      it "creates a new message" do
+        expect(Message.count).to eq 25
+      end
+    end
+
+    context "unauthorized user" do
+      let(:headers) do
+        { Authorization: generate_token(eavesdropper.id) }
+      end
+
+      it "returns a 'forbidden' response status" do
+        expect(response).to have_http_status 403
+      end
+
+      it "returns an error message" do
+        expect(json["message"]).to match /Access denied/
+      end
+    end
+  end
 end
