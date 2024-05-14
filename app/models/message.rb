@@ -1,4 +1,11 @@
 class Message < ApplicationRecord
+  default_scope { order(created_at: :desc) }
+
+  scope :older_than, ->(id) do
+    timestamp_subquery = select(:created_at).where(id: id).to_sql
+    where("messages.created_at < (#{timestamp_subquery})")
+  end
+
   after_create :update_messageable
 
   belongs_to :user

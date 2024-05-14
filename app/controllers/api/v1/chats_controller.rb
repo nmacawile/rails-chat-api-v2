@@ -29,10 +29,4 @@ class Api::V1::ChatsController < ApplicationController
   def set_chat
     @chat = Chat.includes(:users).find(params[:id])
   end
-  
-  def restrict_access
-    unless @chat.users.include?(current_user)
-      raise ExceptionHandler::Forbidden, "Access denied"
-    end
-  end
 end
