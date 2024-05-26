@@ -19,6 +19,10 @@ RSpec.describe "Authentication API", type: :request do
       it "returns the user data" do
         expect(json["user"]).to eq user.as_json
       end
+
+      it "returns an expiry" do
+        expect(json["exp"]).not_to be_nil
+      end
     end
 
     context "when invalid login" do

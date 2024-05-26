@@ -24,6 +24,11 @@ RSpec.describe AuthenticateUser do
         auth_user = auth_response[:user]
         expect(auth_user).to eq user
       end
+
+      it "includes expiry" do
+        auth_exp = auth_response[:exp]
+        expect(auth_exp).not_to be_nil
+      end
     end
 
     context "when invalid credentials" do

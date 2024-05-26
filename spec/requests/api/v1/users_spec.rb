@@ -21,6 +21,10 @@ RSpec.describe "Users API", type: :request do
         expect(json["auth_token"]).not_to be_nil
       end
 
+      it "returns an expiry" do
+        expect(json["exp"]).not_to be_nil
+      end
+
       it "returns the user data" do
         expect(json["user"]["id"]).not_to be_nil
         expect(json["user"]["email"]).to eq user.email
