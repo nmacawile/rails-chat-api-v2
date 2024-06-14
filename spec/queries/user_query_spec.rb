@@ -6,7 +6,10 @@ RSpec.describe UserQuery do
   end
 
   let(:user) do
-    create :user, first_name: "Foo", last_name: "Bar"
+    create(:user, { first_name: "Foo",
+                    last_name: "Bar",
+                    handle: "foo.bar999",
+                    email: "foobar999@email.com" })
   end
 
   subject { described_class.new(query_string) }
@@ -41,6 +44,30 @@ RSpec.describe UserQuery do
 
       it "returns a list including the matching user" do
         expect(subject.call).to eq [user]
+      end
+    end
+
+    context "when query string partially matches user's handle" do
+      let(:query_string) { "foo.bar" }
+
+      it "returns a list including the matching user" do
+        expect(subject.call).to eq [user]
+      end
+    end
+
+    context "when query string exactly matches user's email" do
+      let(:query_string) { "foobar999@email.com" }
+
+      it "returns a list including the matching user" do
+        expect(subject.call).to eq [user]
+      end
+    end
+
+    context "when query string partially matches user's email" do
+      let(:query_string) { "foobar999@email" }
+
+      it "returns an empty list" do
+        expect(subject.call).to be_empty
       end
     end
   end
