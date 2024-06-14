@@ -7,7 +7,8 @@ RSpec.describe "Users API", type: :request do
       user.slice :first_name,
                  :last_name,
                  :email,
-                 :password
+                 :password,
+                 :handle
     end
 
     context "when valid request" do

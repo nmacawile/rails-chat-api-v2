@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_08_162617) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_13_034042) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "plpgsql"
 
   create_table "chats", force: :cascade do |t|
@@ -53,8 +54,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_08_162617) do
     t.string "last_name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.citext "handle", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["first_name", "last_name"], name: "index_on_full_name"
+    t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

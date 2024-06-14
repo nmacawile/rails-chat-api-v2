@@ -12,13 +12,13 @@ class User < ApplicationRecord
                    source_type: "Chat"
   has_many :messages
 
-  validates_presence_of :first_name, :last_name
+  validates_presence_of :first_name, :last_name, :handle
 
   def full_name
     "#{first_name} #{last_name}"
   end
 
   def data
-    slice(:id, :email, :first_name, :last_name, :full_name)
+    slice(:id, :first_name, :last_name, :full_name, :handle)
   end
 end
