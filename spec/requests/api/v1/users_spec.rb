@@ -31,6 +31,8 @@ RSpec.describe "Users API", type: :request do
         expect(json["user"]["email"]).to eq user.email
         expect(json["user"]["first_name"]).to eq user.first_name
         expect(json["user"]["last_name"]).to eq user.last_name
+        expect(json["user"]["full_name"]).to eq user.full_name
+        expect(json["user"]["email"]).to eq user.email
       end
 
       it "returns a success message" do

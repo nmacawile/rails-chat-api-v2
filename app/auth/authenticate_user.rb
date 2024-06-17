@@ -8,7 +8,7 @@ class AuthenticateUser
   def call
     if user&.valid_password?(password)
       return { auth_token: auth_token,
-               user: user,
+               user: user.complete_data,
                exp: exp.to_i }
     end
     raise ExceptionHandler::AuthenticationError,

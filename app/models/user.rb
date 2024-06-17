@@ -21,4 +21,8 @@ class User < ApplicationRecord
   def data
     slice(:id, :first_name, :last_name, :full_name, :handle)
   end
+
+  def complete_data
+    slice(:id, :first_name, :last_name, :full_name, :handle, :email)
+  end
 end

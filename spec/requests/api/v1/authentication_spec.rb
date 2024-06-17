@@ -17,7 +17,7 @@ RSpec.describe "Authentication API", type: :request do
       end
 
       it "returns the user data" do
-        expect(json["user"]).to eq user.as_json
+        expect(json["user"]).to eq user.complete_data.as_json
       end
 
       it "returns an expiry" do

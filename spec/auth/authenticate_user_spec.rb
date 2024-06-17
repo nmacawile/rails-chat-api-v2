@@ -22,7 +22,7 @@ RSpec.describe AuthenticateUser do
 
       it "includes user info" do
         auth_user = auth_response[:user]
-        expect(auth_user).to eq user
+        expect(auth_user).to eq user.complete_data
       end
 
       it "includes expiry" do
