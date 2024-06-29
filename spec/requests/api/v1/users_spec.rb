@@ -74,9 +74,23 @@ RSpec.describe "Users API", type: :request do
 
   describe "GET /api/v1/users" do
     let(:user) { create :user }
-    let!(:users) { create_list :user, 500 }
+    let!(:users) { create_list :user, 250 }
     let(:users_data) { users.map { |u| u.data } }
     let(:headers) { { Authorization: "Bearer #{generate_token(user.id)}"} }  
+
+    context "fields returned" do
+      before { get "/api/v1/users", params: { per_page: 10 }, headers: headers }
+
+      it "does not include emails" do
+        sample = json.first
+        expect(sample["email"]).to be nil
+      end
+
+      it "includes handles" do
+        sample = json.first
+        expect(sample["handle"]).not_to be nil
+      end
+    end
 
     context "fetch everything" do
       before { get "/api/v1/users", params: { per_page: 50 }, headers: headers }
@@ -87,7 +101,7 @@ RSpec.describe "Users API", type: :request do
 
       it "does not include current user" do
         expect(json).not_to include user.data
-      end
+      end      
     end
 
     context "query list" do
