@@ -1,1 +1,5 @@
-render @messages
+if @messages.empty?
+  []
+else
+  render(@messages)
+end
