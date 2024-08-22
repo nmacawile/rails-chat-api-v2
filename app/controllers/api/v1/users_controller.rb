@@ -6,7 +6,8 @@ class Api::V1::UsersController < ApplicationController
               .excluding(current_user)
               .page(params[:page])
               .per(params[:per_page])
-    json_response(@users.map { |u| u.data })
+              .map { |u| u.data }
+    json_response(@users)
   end
 
   def create
