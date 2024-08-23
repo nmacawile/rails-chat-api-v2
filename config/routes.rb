@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       get "chats/:chat_id/messages" => "messages#index"
       post "chats/:chat_id/messages" => "messages#create"
     end
+
+    mount ActionCable.server => "/cable"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

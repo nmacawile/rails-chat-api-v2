@@ -13,6 +13,7 @@ class Api::V1::MessagesController < ApplicationController
     message = @chat.messages.build(message_params)
     message.user = current_user
     message.save!
+    ChatChannel.broadcast_to @chat, chat_message: render(message)
     head :no_content
   end
   
