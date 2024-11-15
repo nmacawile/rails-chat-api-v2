@@ -30,12 +30,15 @@ class Api::V1::MessagesController < ApplicationController
 
   def notify_users
     @chat.users.each do |user|
-      NotificationsChannel.broadcast_to current_user, chat_message: {
-        id: @message.id,
-        content: @message.content[0,50],
-        user: @message.user.data,
-        created_at: @message.created_at
-      }
+      NotificationsChannel.broadcast_to user, chat: {
+          id: @chat.id,
+          type: "Chat",
+          users: @chat.users.map { |u| u.data },
+          latest_message: {
+            content: @chat.latest_message.content,
+            user: @chat.latest_message.user.data
+          }    
+        }
     end
   end
 
