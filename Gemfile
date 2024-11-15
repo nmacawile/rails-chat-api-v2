@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby "3.3.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1.3"
+gem "rails", "~> 8.0.0"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -56,7 +56,6 @@ end
 
 group :test do
   gem "shoulda-matchers"
-  gem "database_cleaner"
 end
 
 group :development do
@@ -64,3 +63,5 @@ group :development do
   # gem "spring"
 end
 
+
+gem "solid_cable", "~> 3.0"
