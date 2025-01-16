@@ -18,6 +18,11 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def contacts
+    query = ContactsQuery.new self
+    query.call
+  end
+
   def data
     slice(:id, :first_name, :last_name, :full_name, :handle)
   end
