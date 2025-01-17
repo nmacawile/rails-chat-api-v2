@@ -43,6 +43,14 @@ RSpec.describe User, type: :model do
       expect(data["handle"]).not_to be_nil
     end
 
+    it "includes the visibility" do
+      expect(data["visibility"]).not_to be_nil
+    end
+
+    it "includes the last seen" do
+      expect(data["last_seen"]).not_to be_nil
+    end
+
     it "doesn't include the email" do
       expect(data["email"]).to be_nil
     end
@@ -70,6 +78,14 @@ RSpec.describe User, type: :model do
 
     it "includes the handle" do
       expect(data["handle"]).not_to be_nil
+    end
+
+    it "includes the visibility" do
+      expect(data["visibility"]).not_to be_nil
+    end
+
+    it "includes the last seen" do
+      expect(data["last_seen"]).not_to be_nil
     end
 
     it "includes the email" do

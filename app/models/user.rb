@@ -24,10 +24,22 @@ class User < ApplicationRecord
   end
 
   def data
-    slice(:id, :first_name, :last_name, :full_name, :handle)
+    slice(included_columns)
   end
 
   def complete_data
-    slice(:id, :first_name, :last_name, :full_name, :handle, :email)
+    slice(*included_columns, :email)
+  end
+
+  private 
+
+  def included_columns
+    [:id,
+     :first_name,
+     :last_name,
+     :full_name,
+     :handle,
+     :visibility,
+     :last_seen]
   end
 end

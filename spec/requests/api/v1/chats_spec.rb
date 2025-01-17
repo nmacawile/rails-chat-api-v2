@@ -24,10 +24,10 @@ RSpec.describe "Chats API", type: :request do
         "users" => user_chats.second
                              .users
                              .order(:first_name, :last_name)
-                             .map { |u| u.data },
+                             .map { |u| formatted_user_data u },
         "latest_message" => {
           "content" => user_chat_messages.second.content,
-          "user" => user.data
+          "user" => formatted_user_data(user)
         }
       },
       { 
@@ -36,10 +36,10 @@ RSpec.describe "Chats API", type: :request do
         "users" => user_chats.first
                              .users
                              .order(:first_name, :last_name)
-                             .map { |u| u.data },
+                             .map { |u| formatted_user_data u },
         "latest_message" => {
           "content" => user_chat_messages.first.content,
-          "user" => user.data
+          "user" => formatted_user_data(user)
         }
       }
     ]
@@ -70,7 +70,7 @@ RSpec.describe "Chats API", type: :request do
         "type" => "Chat",
         "users" => chat.users
                        .order(:first_name, :last_name)
-                       .map { |u| u.data }
+                       .map { |u| formatted_user_data u }
       }
     end
     
@@ -129,7 +129,7 @@ RSpec.describe "Chats API", type: :request do
       end
 
       it "returns a list of chat participants" do
-        expect(json["users"]).to include other_user.data
+        expect(json["users"]).to include formatted_user_data(other_user)
       end
 
       it "returns a 'created' response status" do
@@ -145,7 +145,7 @@ RSpec.describe "Chats API", type: :request do
       end
 
       it "returns a list of chat participants" do
-        expect(json["users"]).to include other_user.data
+        expect(json["users"]).to include formatted_user_data(other_user)
       end
 
       it "returns an 'ok' response status" do

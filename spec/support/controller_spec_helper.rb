@@ -11,13 +11,17 @@ module ControllerSpecHelper
     Time.at(time).utc.iso8601(3)
   end
 
+  def formatted_user_data user
+    { **user.data, "last_seen" => iso8601(user.last_seen) }
+  end
+
   def transform_messages(messages)
     messages.map do |m|
       {
         "id" => m.id,
         "content" => m.content,
         "created_at" => iso8601(m.created_at),
-        "user" => m.user.data.transform_keys(&:to_s)
+        "user" => formatted_user_data(m.user)
       }
     end
   end
