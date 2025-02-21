@@ -27,7 +27,7 @@ RSpec.describe "Chats API", type: :request do
                              .map { |u| formatted_user_data u },
         "latest_message" => {
           "content" => user_chat_messages.second.content,
-          "user" => formatted_user_data(user)
+          "user" => user.data
         }
       },
       { 
@@ -39,7 +39,7 @@ RSpec.describe "Chats API", type: :request do
                              .map { |u| formatted_user_data u },
         "latest_message" => {
           "content" => user_chat_messages.first.content,
-          "user" => formatted_user_data(user)
+          "user" => user.data
         }
       }
     ]

@@ -12,7 +12,7 @@ module ControllerSpecHelper
   end
 
   def formatted_user_data user
-    { **user.data, "last_seen" => iso8601(user.last_seen) }
+    { **user.data_with_visibility_fields, "last_seen" => iso8601(user.last_seen) }
   end
 
   def transform_messages(messages)
@@ -21,7 +21,7 @@ module ControllerSpecHelper
         "id" => m.id,
         "content" => m.content,
         "created_at" => iso8601(m.created_at),
-        "user" => formatted_user_data(m.user)
+        "user" => m.user.data
       }
     end
   end

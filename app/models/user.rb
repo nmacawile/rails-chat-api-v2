@@ -27,6 +27,10 @@ class User < ApplicationRecord
     slice(included_columns)
   end
 
+  def data_with_visibility_fields
+    slice(included_columns + [:visibility, :last_seen])
+  end
+
   def complete_data
     slice(*included_columns, :email)
   end
@@ -38,8 +42,6 @@ class User < ApplicationRecord
      :first_name,
      :last_name,
      :full_name,
-     :handle,
-     :visibility,
-     :last_seen]
+     :handle]
   end
 end
