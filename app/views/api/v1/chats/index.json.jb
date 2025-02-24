@@ -2,7 +2,7 @@
   {
     id: chat.id,
     type: "Chat",
-    users: chat.users.map { |u| u.data_with_visibility_fields },
+    users: chat.users.map { |u| u.data_with_presence_fields },
     latest_message: {
       content: chat.latest_message.content,
       user: chat.latest_message.user.data

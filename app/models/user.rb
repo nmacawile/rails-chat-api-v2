@@ -27,8 +27,8 @@ class User < ApplicationRecord
     slice(included_columns)
   end
 
-  def data_with_visibility_fields
-    slice(included_columns + [:visibility, :last_seen])
+  def data_with_presence_fields
+    slice(included_columns + [:presence, :last_seen])
   end
 
   def complete_data

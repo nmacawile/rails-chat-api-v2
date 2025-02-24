@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:chats) }
   it { is_expected.to have_many(:messages) }
   it { is_expected.to have_db_column(:last_seen).of_type(:datetime) }
-  it { is_expected.to have_db_column(:visibility).of_type(:boolean) }
+  it { is_expected.to have_db_column(:presence).of_type(:boolean) }
 
   describe "#full_name" do
     let(:first_name) { subject.first_name }
@@ -43,8 +43,8 @@ RSpec.describe User, type: :model do
       expect(data["handle"]).not_to be_nil
     end
 
-    it "does not include the visibility" do
-      expect(data["visibility"]).to be_nil
+    it "does not include the presence" do
+      expect(data["presence"]).to be_nil
     end
 
     it "does not include the last seen" do
@@ -80,8 +80,8 @@ RSpec.describe User, type: :model do
       expect(data["handle"]).not_to be_nil
     end
 
-    it "does not include the visibility" do
-      expect(data["visibility"]).to be_nil
+    it "does not include the presence" do
+      expect(data["presence"]).to be_nil
     end
 
     it "does not include the last seen" do
@@ -89,9 +89,9 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#data_with_visibility_fields" do
+  describe "#data_with_presence_fields" do
   subject { create :user }
-    let(:data) { subject.data_with_visibility_fields }
+    let(:data) { subject.data_with_presence_fields }
 
     it "includes the first name" do
       expect(data["first_name"]).not_to be_nil
@@ -113,8 +113,8 @@ RSpec.describe User, type: :model do
       expect(data["handle"]).not_to be_nil
     end
 
-    it "includes the visibility" do
-      expect(data["visibility"]).not_to be_nil
+    it "includes the presence" do
+      expect(data["presence"]).not_to be_nil
     end
 
     it "includes the last seen" do
