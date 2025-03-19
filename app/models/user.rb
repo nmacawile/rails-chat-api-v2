@@ -3,6 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   default_scope { order(:first_name, :last_name) }
 
+  before_update -> { touch(:last_seen) }, if: -> { saved_change_to_presence? }
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
