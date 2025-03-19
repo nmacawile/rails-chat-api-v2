@@ -33,7 +33,7 @@ class Api::V1::MessagesController < ApplicationController
       NotificationsChannel.broadcast_to user, chat: {
           id: @chat.id,
           type: "Chat",
-          users: @chat.users.map { |u| u.data },
+          users: @chat.users.map { |u| u.data_with_presence_fields },
           latest_message: {
             content: @chat.latest_message.content,
             user: @chat.latest_message.user.data
