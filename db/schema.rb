@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_24_124828) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_21_085834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_24_124828) do
     t.citext "handle", null: false
     t.boolean "presence", default: false, null: false
     t.datetime "last_seen", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "visibility", default: true, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["first_name", "last_name"], name: "index_on_full_name"
     t.index ["handle"], name: "index_users_on_handle", unique: true

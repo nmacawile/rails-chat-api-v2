@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:messages) }
   it { is_expected.to have_db_column(:last_seen).of_type(:datetime) }
   it { is_expected.to have_db_column(:presence).of_type(:boolean) }
+  it { is_expected.to have_db_column(:visibility).of_type(:boolean) }
 
   describe "#full_name" do
     let(:first_name) { subject.first_name }
@@ -54,6 +55,10 @@ RSpec.describe User, type: :model do
     it "doesn't include the email" do
       expect(data["email"]).to be_nil
     end
+
+    it "doesn't include the visibility" do
+      expect(data["visibility"]).to be_nil
+    end
   end
 
   describe "#complete_data" do
@@ -87,10 +92,14 @@ RSpec.describe User, type: :model do
     it "does not include the last seen" do
       expect(data["last_seen"]).to be_nil
     end
+
+    it "includes the visibility" do
+      expect(data["visibility"]).not_to be_nil
+    end
   end
 
   describe "#data_with_presence_fields" do
-  subject { create :user }
+    subject { create :user }
     let(:data) { subject.data_with_presence_fields }
 
     it "includes the first name" do
@@ -123,6 +132,10 @@ RSpec.describe User, type: :model do
 
     it "doesn't include the email" do
       expect(data["email"]).to be_nil
+    end
+
+    it "doesn't include the visibility" do
+      expect(data["visibility"]).to be_nil
     end
   end
 end

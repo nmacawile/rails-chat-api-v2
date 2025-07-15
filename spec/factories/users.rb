@@ -6,5 +6,6 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     handle { Faker::Internet.unique.username(specifier: 5..20) }
     presence { true }
+    visibility { true }
   end
 end

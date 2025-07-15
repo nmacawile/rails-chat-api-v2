@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
       get "users" => "users#index"
       
+      patch "visibility" => "visibility#update"
+      
       get "chats" => "chats#index"
       get "chats/:id" => "chats#show"
       post "chats/find_or_create/:user_id" => "chats#find_or_create"
