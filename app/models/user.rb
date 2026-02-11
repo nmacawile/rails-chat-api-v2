@@ -1,9 +1,13 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  default_scope { order(:first_name, :last_name) }
+  attr_accessor :presence
 
-  before_update -> { touch(:last_seen) }, if: -> { will_save_change_to_presence? }
+  def presence
+    @presence ||= false
+  end
+
+  default_scope { order(:first_name, :last_name) }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -13,6 +17,7 @@ class User < ApplicationRecord
                    source: :joinable,
                    source_type: "Chat"
   has_many :messages
+  has_many :presence_connections
 
   validates_presence_of :first_name, :last_name, :handle
 

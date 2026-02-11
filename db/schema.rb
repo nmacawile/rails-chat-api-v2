@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_21_085834) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_29_102616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -44,6 +44,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_085834) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "presence_connections", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "connection_id", null: false
+    t.datetime "last_seen", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "connection_id"], name: "index_presence_connections_on_user_id_and_connection_id", unique: true
+    t.index ["user_id"], name: "index_presence_connections_on_user_id"
+  end
+
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
     t.binary "payload", null: false
@@ -65,7 +75,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_085834) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.citext "handle", null: false
-    t.boolean "presence", default: false, null: false
     t.datetime "last_seen", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "visibility", default: true, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -75,4 +84,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_085834) do
   end
 
   add_foreign_key "joins", "users"
+  add_foreign_key "presence_connections", "users"
 end

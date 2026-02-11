@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Chats API", type: :request do
   let(:user) { create :user }
   let(:friends) { create_list :user, 20 }
+  let(:online_user_ids) { [*friends, user].map(&:id) }
 
   let(:user_chats) do
     friends.map do |friend|
@@ -47,6 +48,13 @@ RSpec.describe "Chats API", type: :request do
   
   let(:headers) do
     { "Authorization" => "Bearer #{generate_token(user.id)}" }
+  end
+
+  before do
+    allow(PresenceConnection)
+      .to receive(:pluck)
+      .with(:user_id)
+      .and_return(online_user_ids)
   end
 
   describe "GET /api/v1/chats" do
@@ -123,7 +131,8 @@ RSpec.describe "Chats API", type: :request do
 
     context "when a chat doesn't exist yet" do
       let(:other_user) { create :user }
-      
+      let(:online_user_ids) { [*friends, user, other_user].map(&:id) }
+
       it "returns a chat id" do
         expect(json["id"]).not_to be_nil
       end
