@@ -12,7 +12,7 @@ module ControllerSpecHelper
   end
 
   def formatted_user_data user
-    { **user.data, "presence" => true, "last_seen" => iso8601(user.last_seen) }
+    { **user.data, "presence" => user.visibility && true, "last_seen" => iso8601(user.last_seen) }
   end
 
   def transform_messages(messages)

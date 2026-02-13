@@ -36,8 +36,12 @@ class Api::V1::ChatsController < ApplicationController
 
   private
 
+  def visible_user_ids
+    @visible_user_ids ||= User.where(visibility: true).pluck(:id).to_set
+  end
+
   def present_user_ids
-    @present_user_ids ||= PresenceConnection.pluck(:user_id).to_set
+    @present_user_ids ||= visible_user_ids & PresenceConnection.pluck(:user_id).to_set
   end
 
   def set_chat

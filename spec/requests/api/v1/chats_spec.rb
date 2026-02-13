@@ -17,7 +17,7 @@ RSpec.describe "Chats API", type: :request do
     end
   end
 
-  let!(:user_chats_hash) do
+  let(:user_chats_hash) do
     [
       { 
         "id" => user_chats.second.id,
@@ -58,14 +58,26 @@ RSpec.describe "Chats API", type: :request do
   end
 
   describe "GET /api/v1/chats" do
-    before { get "/api/v1/chats", headers: headers }
+    context "when all users are visible" do
+      before { get "/api/v1/chats", headers: headers }
 
-    it "returns an 'ok' response status" do
-      expect(response).to have_http_status 200
+      it "returns an 'ok' response status" do
+        expect(response).to have_http_status 200
+      end
+
+      it "returns all non-empty chats authenticated user has joined in" do
+        expect(json).to eq user_chats_hash
+      end
     end
 
-    it "returns all non-empty chats authenticated user has joined in" do
-      expect(json).to eq user_chats_hash
+    context "when some users are invisible" do
+      let(:friends) { create_list :user, 20, visibility: false }
+
+      before { get "/api/v1/chats", headers: headers }
+
+      it "returns a chat with at least one user with presence: false" do
+        expect(json.first["users"].any? { |u| u["presence"] == false }).to eq true
+      end
     end
   end
 
