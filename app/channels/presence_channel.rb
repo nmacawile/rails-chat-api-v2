@@ -28,6 +28,12 @@ class PresenceChannel < ApplicationCable::Channel
     end
   end
 
+  def refresh_presence
+    PresenceConnection
+      .find_by(connection_id: connection.connection_id)
+      .update!(last_seen: Time.current)
+  end
+
   private
 
   def has_other_connections?
